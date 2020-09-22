@@ -1,0 +1,11 @@
+{
+  "app.title": "Title",
+  "app.text": "Text",
+  "app.notes": "Notes",
+  "app.note": "Note",
+  "app.create": "New item",
+  "app.save": "Save",
+  "app.delete": "Delete",
+  "app.language": "Language",
+  "app.id": "Id"
+}

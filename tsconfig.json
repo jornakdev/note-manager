@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": ["es6", "dom"],
+    "outDir": "./dist/",
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "module": "es6",
+    "target": "es5",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node"
+  }
+}

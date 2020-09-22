@@ -1,0 +1,3 @@
+interface ParamTypes {
+    id?: string
+}

@@ -1,0 +1,11 @@
+{
+  "app.title": "Nadpis",
+  "app.text": "Text",
+  "app.notes": "Poznámky",
+  "app.note": "Poznámka",
+  "app.create": "Nový záznam",
+  "app.save": "Uložit",
+  "app.delete": "Smazat",
+  "app.language": "Jazyk",
+  "app.id": "Id"
+}
