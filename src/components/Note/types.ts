@@ -1,3 +1,3 @@
-interface ParamTypes {
-    id?: string
+export interface ParamTypes {
+  id?: string;
 }

@@ -1,5 +1,7 @@
-import {RootState} from "./redux";
+import { RootState } from './redux';
 
-export const NOTE_DETAIL_FORM = 'NOTE_DETAIL_FORM'
+export const NOTE_DETAIL_FORM = 'NOTE_DETAIL_FORM';
 
-export const makeSelectorFormData = (formName:string) => (state:RootState, ) => state.form[formName]?.values
+export const makeSelectorFormData = (formName: string) => (
+  state: RootState
+): any => state.form[formName]?.values;

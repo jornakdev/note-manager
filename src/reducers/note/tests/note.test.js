@@ -1,5 +1,5 @@
 import reducer, { initialStateNote } from '../index'
-import { getActions } from "../actions";
+import { createActionClearErrors, getActions } from "../actions";
 import { ActionNames, NOTE_CLEAR_ERRORS } from "../types";
 import { produce } from "immer";
 
@@ -31,9 +31,7 @@ describe('note reducer', () => {
                 draft[ActionNames.NOTE_GET].error = 'Internal Sever Error 1'
                 draft[ActionNames.NOTE_POST].error = 'Internal Sever Error 2'
                 draft[ActionNames.NOTE_PUT].error = 'Internal Sever Error 3'
-            }), {
-                type: NOTE_CLEAR_ERRORS,
-            })
+            }), createActionClearErrors())
         ).toEqual(
             produce(initialStateNote, draft => {
                 draft[ActionNames.NOTE_GET].error = null

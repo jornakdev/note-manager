@@ -1,9 +1,6 @@
-import {all} from 'redux-saga/effects'
-import {notesDataProcessor} from "../../reducers/notes/index";
+import { all, AllEffect } from 'redux-saga/effects';
+import { notesDataProcessor } from '../../reducers/notes/index';
 
-
-export function* notesSaga() {
-    yield all([
-        notesDataProcessor.saga(),
-    ])
+export function* notesSaga(): Generator<AllEffect<Array<any>>> {
+  yield all([notesDataProcessor.saga()]);
 }
