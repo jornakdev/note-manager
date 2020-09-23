@@ -10,6 +10,8 @@ import {
 } from "./types";
 import {Reducer} from "react";
 import {call, put, takeEvery} from "@redux-saga/core/effects";
+import produce, {Draft} from "immer"
+import {Produced} from "immer/dist/types/types-external";
 
 function createActions<Req extends Data, Res extends Data>(actionName: string): DataActionsFactory<Req, Res> {
     const actions = {
@@ -30,16 +32,8 @@ function createActions<Req extends Data, Res extends Data>(actionName: string): 
         actions
     }
 }
-
-// TODO add immutable
 function createReducer<S, A extends Action>(actionName: string, actions: DataActions, initialState): Reducer<S, A> {
-    return (state: S, action: A): S => {
-        if (state === undefined){
-            state = initialState
-        }
-        if (state[actionName] === undefined) {
-            state[`${actionName}`] = {}
-        }
+    return (state:S = initialState, action: A):S => {
         switch (action.type) {
             case actions.fetch:
                 state[actionName].progress = true
@@ -60,9 +54,14 @@ function createReducer<S, A extends Action>(actionName: string, actions: DataAct
                 return state;
             default:
                 return state;
-
         }
     }
+}
+
+
+function createReducerImmutable<S, A extends Action>(actionName: string, actions: DataActions, initialState): Reducer<S, A> {
+    // @ts-ignore
+    return produce(createReducer(actionName,actions), initialState)
 }
 
 function wait(time:number){
@@ -111,7 +110,8 @@ function createSelectors<D>(actionsName:string, reducerName:string):Selectors<D,
 export function createDataProcessor<Req extends Data, Res extends Data>(actionName: string,reducerName:string,apiCall: (data?: Req) => Promise<Res>, method: Methods, initialState?): DataProcessorFactory<Req, Res> {
     const actionsProduct = createActions<Req, Res>(actionName);
     const reducer = createReducer(actionName, actionsProduct.actions,initialState);
+    const reducerImmutable = createReducerImmutable(actionName, actionsProduct.actions,initialState);
     const saga = createSaga<Req, Res>(actionsProduct, apiCall, method);
     const selectors = createSelectors<Res>(actionName, reducerName)
-    return {...actionsProduct, reducer, saga,selectors}
+    return {...actionsProduct, reducer, saga,selectors,reducerImmutable}
 }

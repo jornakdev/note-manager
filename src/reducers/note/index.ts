@@ -2,9 +2,15 @@ import {createDataProcessor} from "../../utils/data";
 import {Api} from "../../utils/api";
 import {IdPayload, Methods} from "../../utils/types";
 import {Item} from "../../types";
-import {ActionNames, NOTE_CLEAR_ERRORS, NoteActionTypes} from "./types";
+import {ActionNames, NOTE_CLEAR_ERRORS} from "./types";
+import produce from "immer";
 
-const initialStateNotes = {};
+export const initialStateNote = {
+    [ActionNames.NOTE_GET]: {},
+    [ActionNames.NOTE_DELETE]: {},
+    [ActionNames.NOTE_PUT]: {},
+    [ActionNames.NOTE_POST]: {}
+};
 
 export const REDUCER_NAME = 'note';
 
@@ -14,7 +20,7 @@ export const notePutDataProcessor = createDataProcessor<Item, Item>(ActionNames.
 export const notePostDataProcessor = createDataProcessor<Item, Item>(ActionNames.NOTE_POST, REDUCER_NAME, Api.postNote, Methods.POST)
 
 
-function notesReducer(state = initialStateNotes, action:NoteActionTypes) {
+const notesReducer = produce((state, action) => {
     state = noteGetDataProcessor.reducer(state, action)
     state = noteDeleteDataProcessor.reducer(state, action)
     state = notePutDataProcessor.reducer(state, action)
@@ -28,7 +34,6 @@ function notesReducer(state = initialStateNotes, action:NoteActionTypes) {
         default:
             return state
     }
-
-}
+}, initialStateNote)
 
 export default notesReducer;

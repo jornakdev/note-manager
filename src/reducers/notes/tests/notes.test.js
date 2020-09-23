@@ -46,7 +46,12 @@ describe('notes reducer', () => {
 
     it('should handle NOTES_FETCH_FAIL', () => {
         expect(
-            reducer(undefined, {
+            reducer({
+                NOTES: {
+                    progress: false,
+                    data: data
+                },
+            }, {
                 type: actions.fetchFail,
                 payload: {message: 'Server internal error'}
             })
@@ -64,7 +69,13 @@ describe('notes reducer', () => {
 
     it('should handle NOTES_CLEAR_ERROR', () => {
         expect(
-            reducer(undefined, {
+            reducer({
+                NOTES: {
+                    progress: false,
+                    data: data,
+                    error: 'Server internal error'
+                },
+            }, {
                 type: actions.clearError,
             })
         ).toEqual(
@@ -81,7 +92,13 @@ describe('notes reducer', () => {
 
     it('should handle NOTES_CLEAR_DATA', () => {
         expect(
-            reducer(undefined, {
+            reducer({
+                NOTES: {
+                    progress: false,
+                    data: data,
+                    error: null
+                },
+            }, {
                 type: actions.clearData,
             })
         ).toEqual(

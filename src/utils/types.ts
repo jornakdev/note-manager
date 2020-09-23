@@ -78,6 +78,7 @@ export interface Selectors<D extends Data,S> {
 
 export interface DataProcessorFactory<Req extends Data, Res extends Data> extends DataActionsFactory<Req,Res>{
     reducer: Reducer<any,any>,
+    reducerImmutable: Reducer<any,any>,
     saga: () => {},
     selectors: Selectors<Res,any>,
 }

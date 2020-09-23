@@ -15,7 +15,7 @@
   "scripts": {
     "start": "webpack-dev-server --open",
     "build": "webpack",
-    "test": "jest"
+    "test": "jest --collectCoverage"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -23,6 +23,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "clsx": "^1.1.1",
     "connected-react-router": "^6.8.0",
+    "immer": "^7.0.9",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-intl": "^5.8.2",
