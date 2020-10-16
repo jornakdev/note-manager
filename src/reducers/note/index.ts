@@ -1,6 +1,6 @@
 import { createDataProcessor } from '../../utils/data';
 import { Api } from '../../utils/api';
-import { IdPayload, Methods } from '../../utils/types';
+import { EmptyData, IdPayload, Methods } from '../../utils/types';
 import { Item } from '../../types';
 import { ActionNames, NOTE_CLEAR_ERRORS } from './types';
 import produce from 'immer';
@@ -20,12 +20,10 @@ export const noteGetDataProcessor = createDataProcessor<IdPayload, Item>(
   Api.getNote,
   Methods.GET_DETAIL
 );
-export const noteDeleteDataProcessor = createDataProcessor<IdPayload, Item>(
-  ActionNames.NOTE_DELETE,
-  REDUCER_NAME,
-  Api.deleteNote,
-  Methods.DELETE
-);
+export const noteDeleteDataProcessor = createDataProcessor<
+  IdPayload,
+  EmptyData
+>(ActionNames.NOTE_DELETE, REDUCER_NAME, Api.deleteNote, Methods.DELETE);
 export const notePutDataProcessor = createDataProcessor<Item, Item>(
   ActionNames.NOTE_PUT,
   REDUCER_NAME,

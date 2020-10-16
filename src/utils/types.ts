@@ -1,5 +1,7 @@
 import { Theme } from '@material-ui/core';
 import { Reducer } from 'react';
+import { RootState } from './redux';
+import { ForkEffect } from '@redux-saga/core/effects';
 
 export enum Methods {
   POST = 'POST',
@@ -70,16 +72,27 @@ export interface DataActionsFactory<Req extends Data, Res extends Data> {
   actions: DataActions;
 }
 
-export interface Selectors<D extends Data, S> {
-  selectData: (state: S) => D;
-  selectError: (state: S) => string;
-  selectProgress: (state: S) => boolean;
+export interface Selectors<D extends Data> {
+  selectData: (state: RootState) => D;
+  selectError: (state: RootState) => string;
+  selectProgress: (state: RootState) => boolean;
 }
 
 export interface DataProcessorFactory<Req extends Data, Res extends Data>
   extends DataActionsFactory<Req, Res> {
-  reducer: Reducer<any, any>;
-  reducerImmutable: Reducer<any, any>;
-  saga: () => any;
-  selectors: Selectors<Res, any>;
+  reducer: Reducer<DataProcessorState, Action>;
+  reducerImmutable: Reducer<DataProcessorState, Action>;
+  saga: () => ForkEffect;
+  selectors: Selectors<Res>;
 }
+
+export interface DataProcessorState {
+  [key: string]: {
+    progress: boolean;
+    data: any | null;
+    error: string | null;
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface EmptyData extends Data {}

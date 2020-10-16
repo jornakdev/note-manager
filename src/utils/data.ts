@@ -4,6 +4,7 @@ import {
   DataActions,
   DataActionsFactory,
   DataProcessorFactory,
+  DataProcessorState,
   Methods,
   PayloadAction,
   Selectors
@@ -11,6 +12,7 @@ import {
 import { Reducer } from 'react';
 import { call, put, takeEvery } from '@redux-saga/core/effects';
 import produce from 'immer';
+import { RootState } from './redux';
 
 function createActions<Req extends Data, Res extends Data>(
   actionName: string
@@ -43,12 +45,15 @@ function createActions<Req extends Data, Res extends Data>(
   };
 }
 
-function createReducer<S, A extends Action>(
+function createReducer<A extends Action>(
   actionName: string,
   actions: DataActions,
   initialState
-): Reducer<S, A> {
-  return (state: S = initialState, action: A): S => {
+): Reducer<DataProcessorState, A> {
+  return (
+    state: DataProcessorState = initialState,
+    action: A
+  ): DataProcessorState => {
     switch (action.type) {
       case actions.fetch:
         state[actionName].progress = true;
@@ -73,11 +78,11 @@ function createReducer<S, A extends Action>(
   };
 }
 
-function createReducerImmutable<S, A extends Action>(
+function createReducerImmutable<A extends Action>(
   actionName: string,
   actions: DataActions,
   initialState?: Data
-): Reducer<S, A> {
+): Reducer<DataProcessorState, A> {
   // @ts-ignore
   return produce(createReducer(actionName, actions), initialState);
 }
@@ -119,11 +124,12 @@ function createSaga<Req extends Data, Res extends Data>(
 function createSelectors<D>(
   actionsName: string,
   reducerName: string
-): Selectors<D, any> {
+): Selectors<D> {
   return {
-    selectData: (state) => state[reducerName][actionsName].data,
-    selectError: (state) => state[reducerName][actionsName].error,
-    selectProgress: (state) => state[reducerName][actionsName].progress
+    selectData: (state: RootState) => state[reducerName][actionsName].data,
+    selectError: (state: RootState) => state[reducerName][actionsName].error,
+    selectProgress: (state: RootState) =>
+      state[reducerName][actionsName].progress
   };
 }
 

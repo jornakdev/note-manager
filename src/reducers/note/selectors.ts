@@ -5,6 +5,8 @@ import {
   notePutDataProcessor
 } from './index';
 import { Data, Selectors } from '../../utils/types';
+import { Item } from '../../types';
+import { RootState } from '../../utils/redux';
 
 export const selectors = {
   get: noteGetDataProcessor.selectors,
@@ -13,21 +15,18 @@ export const selectors = {
   put: notePutDataProcessor.selectors
 };
 
-export const selectorProgress = (state: Data): boolean => {
-  return Object.values(selectors).find((selector: Selectors<any, any>) =>
+export const selectorProgress = (state: RootState): boolean => {
+  return Object.values(selectors).find((selector: Selectors<Item>) =>
     selector.selectProgress(state)
   )
     ? true
     : false;
 };
 
-export const selectorErrors = (state: Data): undefined | string => {
-  return Object.values(selectors).reduce(
-    (acc, selector: Selectors<any, any>) => {
-      const error = selector.selectError(state);
-      if (error) return acc !== undefined ? acc + '; ' + error : error;
-      else return acc;
-    },
-    undefined
-  );
+export const selectorErrors = (state: RootState): undefined | string => {
+  return Object.values(selectors).reduce((acc, selector: Selectors<Item>) => {
+    const error = selector.selectError(state);
+    if (error) return acc !== undefined ? acc + '; ' + error : error;
+    else return acc;
+  }, undefined);
 };
